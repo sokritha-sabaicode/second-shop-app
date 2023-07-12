@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  min-height: 100vh;
+}
+
+/* Make the progress bar red */
+#nprogress .bar {
+  background: yellow !important;
+}
+
+/* Increase the progress bar height */
+#nprogress .bar {
+  height: 5px !important;
+}
+
+/* Decrease the animation speed */
+#nprogress .bar {
+  transition: all 400ms ease-in-out s;
+}

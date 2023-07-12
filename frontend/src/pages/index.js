@@ -37,8 +37,13 @@ export const getServerSideProps = async (context) => {
   try {
     const { query } = context;
 
+    let categoryQuery = "all";
+    if (query) {
+      categoryQuery = query.category;
+    }
+
     const CategoryEndpoint = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/categories`;
-    const ProductEndpoint = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/products?category=${query.category}`;
+    const ProductEndpoint = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/products?category=${categoryQuery}`;
 
     const fetchingCategory = await fetch(CategoryEndpoint);
     const categoryResult = await fetchingCategory.json();

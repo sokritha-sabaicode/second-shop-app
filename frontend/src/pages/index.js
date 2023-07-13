@@ -8,10 +8,23 @@ export default function Home({ categories, products }) {
   // error state
   if (!categories.data || !products.data) {
     return (
-      <main>
-        <Navbar />
-        <div>Error loading categories. Please try again later.</div>
-        <Footer />
+      <main className="flex flex-col items-center min-h-screen">
+        <div className="flex-shrink-0">
+          <Navbar />
+        </div>
+        <div className="mt-20" />
+        <TabList categories={categories.data} />
+        <div className="flex-grow">
+          <div className="flex items-center justify-center">
+            <span className="text-xl text-center text-gray-500">
+              No Product Found
+            </span>
+          </div>
+        </div>
+        <div className="mt-20" />
+        <div className="flex-shrink-0 w-full">
+          <Footer />
+        </div>
       </main>
     );
   }

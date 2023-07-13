@@ -9,7 +9,7 @@ export default function ProductCardList({ data }) {
   const [products, setProducts] = useState(data.data && data.data.docs);
   const [page, setPage] = useState(data && data.data ? data.data.nextPage : 1);
   const [hasMore, setHasMore] = useState(data.data.hasNextPage);
-
+  console.log("hasmore", hasMore);
   useEffect(() => {
     // Re-initialize products when category changes
     setProducts(data.data && data.data.docs);
@@ -18,7 +18,13 @@ export default function ProductCardList({ data }) {
   }, [query.category, data]);
 
   const loadNextPage = async () => {
-    if (page === 1) {
+    console.log("pge", page);
+    if (page === 1 || page === null) {
+      return;
+    }
+
+    if (products.length >= data.data.totalDocs) {
+      setHasMore(false);
       return;
     }
 
@@ -30,15 +36,17 @@ export default function ProductCardList({ data }) {
       );
       const data = await response.json();
 
-      console.log("data", data);
-
       // Append the new products to the existing products
       const updatedProducts = [...products, ...data.data.docs];
-      console.log("update", updatedProducts);
+      console.log("nextpage", data.data.nextPage);
+      console.log("nextpage", data.data.hasNextPage);
+
       // Update the state with the new products and pagination information
-      setProducts(updatedProducts);
-      setPage(data.data.nextPage);
-      setHasMore(data.data.hasNextPage);
+      setTimeout(() => {
+        setProducts(updatedProducts);
+        setPage(data.data.nextPage);
+        setHasMore(data.data.hasNextPage);
+      }, 1000);
     } catch (error) {
       console.error("Failed to fetch next page:", error);
     }
@@ -47,7 +55,7 @@ export default function ProductCardList({ data }) {
     <React.Fragment>
       {products.length !== 0 ? (
         <InfiniteScroll
-          dataLength={data.data.totalDocs}
+          dataLength={products.length}
           hasMore={hasMore}
           next={loadNextPage}
           endMessage={

@@ -18,6 +18,10 @@ export default function ProductCardList({ data }) {
   }, [query.category, data]);
 
   const loadNextPage = async () => {
+    if (page === 1) {
+      return;
+    }
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/products?category=${
